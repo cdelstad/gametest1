@@ -25,12 +25,14 @@ export class Player extends ex.Actor {
             }
         });
         // TODO : How do I figure out the object collided with? I am trying to identify that I hit the portal circle collider from Tiled
-        // this.on("collisionstart", evt => {
-        //     // console.log(evt);
-        //     // console.log(evt.other);
-        //     const data = evt.other.get(TiledObjectComponent);
-        //     console.log(data);
-        // });
+        this.on("collisionstart", evt => {
+            console.log(evt);
+            console.log(evt.other.hasTag('reqlvl'));
+            
+            const data = evt.other.get(TiledObjectComponent);
+            console.log(data);
+            // console.log(data?.object.properties);
+        });
 
         const leftIdle = new ex.Animation({
             frames: [
