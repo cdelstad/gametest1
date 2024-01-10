@@ -4,6 +4,7 @@ import { Config } from './config';
 import { TiledObjectComponent } from '@excaliburjs/plugin-tiled';
 
 export class Player extends ex.Actor {
+    // vent: ex.EventEmitter<any>;
     constructor(pos: ex.Vector) {
         super({
             pos,
@@ -12,8 +13,8 @@ export class Player extends ex.Actor {
             collisionType: ex.CollisionType.Active,
             name: 'player'
         })
+        // this.vent = new ex.EventEmitter()
     }
-
     onInitialize(engine: ex.Engine): void {
         const playerSpriteSheet = ex.SpriteSheet.fromImageSource({
             image: Resources.HeroSpriteSheetPng as ex.ImageSource,
@@ -24,6 +25,7 @@ export class Player extends ex.Actor {
                 columns: 8
             }
         });
+        
         // TODO : How do I figure out the object collided with? I am trying to identify that I hit the portal circle collider from Tiled
         this.on("collisionstart", evt => {
             console.log(evt);
@@ -114,9 +116,47 @@ export class Player extends ex.Actor {
             ]
         });
         this.graphics.add('down-walk', downWalk);
+
+
+
+        const bindings:any = {
+            "kb": {
+                "KeyA": "moveLeft",
+                "KeyD": "moveRight",
+                "KeyW": "moveUp",
+                "KeyS": "moveDown",
+                "KeyC": "interact",
+                "KeyX": "attack"
+            },
+            // I have not tried with gamepad controls so names may be incorrect
+            'gamepad': {
+                "DpadLeft": "moveLeft",
+                "DpadRight": "moveRight",
+                "DpadUp": "moveUp",
+                "DpadDown": "moveDown",
+                "A": "interact",
+                "X": "attack"
+            }
+        }
+
+        // Listen to all keypresses and emit a custom event matching key pressed
+        // Only set if keyboard is selected so we don't have listeners for multiple inputs?
+        engine.input.keyboard.on("hold", (evt: ex.KeyEvent) => {
+            this.events.emit(bindings.kb[evt.key],this);
+            // this.vent.emit(bindings.kb[evt.key], new ex.GameEvent())
+        });
+
+        // This will catch the custom event when fired elsewhere in the code.
+        this.events.on('moveLeft',  () => {
+            // TODO this.vel doesn't work, but left-walk animation does. *boggle*
+            // TODO maybe the problem is thatr this is not in the update cycle??? I recall doing this in the phaser version on the player update().
+            this.vel = ex.vec(-Config.PlayerSpeed, 0);
+            this.graphics.use('left-walk');
+        });
     }
 
     onPreUpdate(engine: ex.Engine, elapsedMs: number): void {
+        // TODO this breaks my logic, but since I don't have an idle it doesn't stop movement.
         this.vel = ex.Vector.Zero;
 
         this.graphics.use('down-idle');

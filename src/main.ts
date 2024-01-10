@@ -9,7 +9,8 @@ const game = new ex.Engine({
     width: 800,
     height: 600,
     canvasElementId: 'game',
-    antialiasing: false
+    antialiasing: false,
+    displayMode: ex.DisplayMode.FitScreenAndFill,
 });
 
 game.start(loader).then(() => {
