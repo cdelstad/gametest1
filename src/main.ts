@@ -11,6 +11,7 @@ const game = new ex.Engine({
     canvasElementId: 'game',
     antialiasing: false,
     displayMode: ex.DisplayMode.FitScreenAndFill,
+    // suppressPlayButton : true,
 });
 
 game.start(loader).then(() => {
@@ -69,8 +70,10 @@ game.start(loader).then(() => {
 
         game.currentScene.add(playerActor);
         playerActor.z = 100;
-        playerActor.scale = new ex.Vector(2, 2);
-        game.currentScene.camera.strategy.elasticToActor(playerActor, .8, .9);
+        // playerActor.scale = new ex.Vector(2, 2);
+        // game.currentScene.camera.strategy.elasticToActor(playerActor, .8, .9);
+        game.currentScene.camera.strategy.lockToActor(playerActor);
+        game.currentScene.camera.zoom = 1.8;
 
 
 
@@ -121,11 +124,10 @@ game.start(loader).then(() => {
             fragmentSource: outline
           })
         
-          playerActor.graphics.material = outlineMaterial;
+        //   playerActor.graphics.material = outlineMaterial;
         //   setTimeout(() => {
-        //     playerActor.graphics.material = '0';
-        //   }, 2000);
-
+        //     playerActor.graphics.material = null;
+        //   }, 5000);
     }
 
     const devtool = new DevTool(game);
