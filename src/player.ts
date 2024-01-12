@@ -1,7 +1,7 @@
 import * as ex from 'excalibur';
 import { Resources } from './resources';
 import { Config } from './config';
-import { TiledObjectComponent } from '@excaliburjs/plugin-tiled';
+import { TiledEntity, TiledLayerComponent, TiledMap, TiledMapResource, TiledObject, TiledObjectComponent, TiledTilesetTile } from '@excaliburjs/plugin-tiled';
 
 export class Player extends ex.Actor {
     facing: string;
@@ -30,14 +30,34 @@ export class Player extends ex.Actor {
         });
         
         // TODO : How do I figure out the object collided with? I am trying to identify that I hit the portal circle collider from Tiled
-        this.on("collisionstart", evt => {
-            console.log(evt);
-            console.log(evt.other.hasTag('reqlvl'));
-            
-            const data = evt.other.get(TiledObjectComponent);
-            console.log(data);
-            // console.log(data?.object.properties);
-        });
+        // this.on("collisionstart", evt => {
+        //     // console.log(evt.contact.colliderB.offset.x,evt.contact.colliderB.offset.y);
+        //     // side is on the player
+        //     // console.log(evt.contact.info.side);
+        //     console.log(evt.contact);
+        //     // console.log(evt.other.hasTag('reqlvl'));
+
+        //     // if (evt.other instanceof ex.TileMap) {
+        //     //     console.log(evt.other.tileHeight,evt.other.tileWidth);
+        //     // }
+        //     // const data = evt.other.get(TiledObjectComponent);
+        //     // console.log(data);
+        //     // console.log(data?.object.properties);
+        // });
+        
+        // this.on("precollision", evt => {
+        //     // console.log(evt);
+        //     // console.log(evt.other.hasTag('reqlvl'));
+
+        //     if (evt.other instanceof ex.TileMap) {
+        //         console.log(evt.other.tileHeight,evt.other.tileWidth);
+        //     }
+        //     // const data = evt.other.get(TiledLayerComponent);
+        //     // console.log(data);
+        //     // console.log(data?.object.properties);
+        // });
+
+
 
         const leftIdle = new ex.Animation({
             frames: [
@@ -172,6 +192,37 @@ export class Player extends ex.Actor {
             this.graphics.use('up-walk');
         });
 
+    }
+
+    onPreCollisionResolve(self: ex.Collider, other: ex.Collider, side: ex.Side, contact: ex.CollisionContact): void {
+        console.log('in onPreCollisionResolve');
+        const otherOwner = other.owner;
+        if (otherOwner instanceof ex.TileMap) {
+            for (let contactPoint of contact.points) {
+                // Nudge into the tile zone by direction
+                const maybeTile = otherOwner.getTileByPoint(contactPoint.add(this.vel.normalize()));
+                if (maybeTile?.solid) {
+                    const targetMidW = maybeTile.pos.x + (maybeTile.width / 2);
+                    const targetMidH = maybeTile.pos.y + (maybeTile.height / 2);
+    
+                    // This logic causes player to slide to nearest edge to go around objects.
+                    if (this.facing === 'left' || this.facing === 'right') {
+                        if (this.pos.y < targetMidH) { 
+                            this.pos.y -= 1;
+                        } else {
+                            this.pos.y += 1;
+                        }
+                    } else { // source.facing === 'up' || source.facing === 'down'
+                        if (this.pos.x < targetMidW) { 
+                            this.pos.x -= 1;
+                        } else {
+                            this.pos.x += 1;
+                        }
+                    }
+                    break;
+                }
+            }
+        }
     }
 
     onPreUpdate(engine: ex.Engine, elapsedMs: number): void {
