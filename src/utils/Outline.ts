@@ -1,7 +1,4 @@
-// identity tagged template literal lights up glsl-literal vscode plugin
-var glsl = x => x[0];
-
-var outline = glsl`#version 300 es
+const outlineFrag = `#version 300 es
 precision mediump float;
 
 uniform float u_time_ms;
@@ -41,7 +38,9 @@ void main() {
   fragColor = mix(fragColor, mat, factor);
 }
 `
-var outlineMaterial = game.graphicsContext.createMaterial({
-    name: 'outline',
-    fragmentSource: outline
-  })
+// var outlineMaterial = game.graphicsContext.createMaterial({
+//     name: 'outline',
+//     fragmentSource: frag
+//   })
+
+  export default outlineFrag;

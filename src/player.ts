@@ -1,7 +1,7 @@
 import * as ex from 'excalibur';
-import { Resources } from './resources';
+import { Resources } from './InitialResources';
 import { Config } from './config';
-import { TiledEntity, TiledLayerComponent, TiledMap, TiledMapResource, TiledObject, TiledObjectComponent, TiledTilesetTile } from '@excaliburjs/plugin-tiled';
+// import { TiledEntity, TiledLayerComponent, TiledMap, TiledMapResource, TiledObject, TiledObjectComponent, TiledTilesetTile } from '@excaliburjs/plugin-tiled';
 
 export class Player extends ex.Actor {
     facing: string;
@@ -225,27 +225,6 @@ export class Player extends ex.Actor {
         }
     }
 
-    onPreUpdate(engine: ex.Engine, elapsedMs: number): void {
-        // TODO this breaks my logic, but since I don't have an idle it doesn't stop movement.
-        // this.vel = ex.Vector.Zero;
-        // this.graphics.use(this.facing+'-idle');
-
-        // if (engine.input.keyboard.isHeld(ex.Input.Keys.ArrowRight)) {
-        //     this.vel = ex.vec(Config.PlayerSpeed, 0);
-        //     this.graphics.use('right-walk');
-        // }
-        // if (engine.input.keyboard.isHeld(ex.Input.Keys.ArrowLeft)) {
-        //     this.vel = ex.vec(-Config.PlayerSpeed, 0);
-        //     this.graphics.use('left-walk');
-        // }
-        // if (engine.input.keyboard.isHeld(ex.Input.Keys.ArrowUp)) {
-        //     this.vel = ex.vec(0, -Config.PlayerSpeed);
-        //     this.graphics.use('up-walk');
-        // }
-        // if (engine.input.keyboard.isHeld(ex.Input.Keys.ArrowDown)) {
-        //     this.vel = ex.vec(0, Config.PlayerSpeed);
-        //     this.graphics.use('down-walk');
-        // }
-
-    }
+    // onPreUpdate(engine: ex.Engine, elapsedMs: number): void {
+    // }
 }
