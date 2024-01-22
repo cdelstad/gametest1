@@ -13,7 +13,7 @@ const game = new ex.Engine({
 });
 
 game.start(loader).then(() => {
-    const devtool = new DevTool(game);
+    // const devtool = new DevTool(game);
 
     // BEGIN SAMPLE CODE SNIPPETS
     // game.input.pointers.primary.on('down', evt => {

@@ -3,7 +3,8 @@
 import { ImageFiltering, ImageSource, Loader } from "excalibur";
 
 export const Resources = {
-    HeroSpriteSheetPng: new ImageSource('./img/FREE Mana Seed Character Base Demo/char_a_p1/char_a_p1_0bas_humn_v01.png', false, ImageFiltering.Pixel)
+    // HeroSpriteSheetPng: new ImageSource('./img/FREE Mana Seed Character Base Demo/char_a_p1/char_a_p1_0bas_humn_v01.png', false, ImageFiltering.Pixel)
+    HeroSpriteSheetPng: new ImageSource('./img/Mana Seed Farmer Sprite Free Sample/farmer base sheets/01body/fbas_1body_human_00.png', false, ImageFiltering.Pixel)
 }
 
 // Uncomment if a TiledMap is added to be used for the entire game - If I use tilemaps to show a zoomed out world map, this would be a good use case.
