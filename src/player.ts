@@ -91,98 +91,53 @@ export class Player extends ex.Actor {
         })
         this.graphics.add('down-idle', downIdle);
 
-        const spriteR1 = playerSpriteSheet.getSprite(0, 4);
-        const spriteR2 = playerSpriteSheet.getSprite(1, 4);
-        const spriteR3 = playerSpriteSheet.getSprite(2, 4);
-        const spriteR4 = playerSpriteSheet.getSprite(3, 4);
-        const spriteR5 = playerSpriteSheet.getSprite(4, 4);
-        const spriteR6 = playerSpriteSheet.getSprite(5, 4);
-
-        const spriteL1 = spriteR1!.clone();
-        spriteL1!.flipHorizontal = true;
-        const spriteL2 = spriteR2!.clone();
-        spriteL2!.flipHorizontal = true;
-        const spriteL3 = spriteR3!.clone();
-        spriteL3!.flipHorizontal = true;        
-
-        const spriteL4 = spriteR4!.clone();
-        spriteL4!.flipHorizontal = true;
-        const spriteL5 = spriteR5!.clone();
-        spriteL5!.flipHorizontal = true;
-        const spriteL6 = spriteR6!.clone();
-        spriteL6!.flipHorizontal = true;        
-
         const leftWalk = new ex.Animation({
             frames: [
-                {graphic: spriteL1 as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: spriteL2 as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: spriteL3 as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: spriteL4 as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: spriteL5 as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: spriteL6 as ex.Sprite, duration: Config.PlayerFrameSpeed},
+                {graphic: playerSpriteSheet.getSprite(0, 4, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+                {graphic: playerSpriteSheet.getSprite(1, 4, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+                {graphic: playerSpriteSheet.getSprite(2, 4, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+                {graphic: playerSpriteSheet.getSprite(3, 4, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+                {graphic: playerSpriteSheet.getSprite(4, 4, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+                {graphic: playerSpriteSheet.getSprite(5, 4, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
             ]
         })
         this.graphics.add('left-walk', leftWalk);
 
         const rightWalk = new ex.Animation({
             frames: [
-                {graphic: spriteR1 as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: spriteR2 as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: spriteR3 as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: spriteR4 as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: spriteR5 as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: spriteR6 as ex.Sprite, duration: Config.PlayerFrameSpeed},
+                {graphic: playerSpriteSheet.getSprite(0, 4) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+                {graphic: playerSpriteSheet.getSprite(1, 4) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+                {graphic: playerSpriteSheet.getSprite(2, 4) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+                {graphic: playerSpriteSheet.getSprite(3, 4) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+                {graphic: playerSpriteSheet.getSprite(4, 4) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+                {graphic: playerSpriteSheet.getSprite(5, 4) as ex.Sprite, duration: Config.PlayerFrameSpeed},
             ]
         });
         this.graphics.add('right-walk', rightWalk);
 
-        const spriteU1 = playerSpriteSheet.getSprite(4, 3);
-        const spriteU2 = playerSpriteSheet.getSprite(5, 3);
-        const spriteU3 = playerSpriteSheet.getSprite(6, 3);
-
-        const spriteU1f = spriteU1!.clone();
-        spriteU1!.flipHorizontal = true;
-        const spriteU2f = spriteU2!.clone();
-        spriteU2!.flipHorizontal = true;
-        const spriteU3f = spriteU3!.clone();
-        spriteU3!.flipHorizontal = true;
-
         const upWalk = new ex.Animation({
             frames: [
-                {graphic: spriteU1 as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: spriteU2 as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: spriteU3 as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: spriteU1f as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: spriteU2f as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: spriteU3f as ex.Sprite, duration: Config.PlayerFrameSpeed},
+                {graphic: playerSpriteSheet.getSprite(4, 3) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+                {graphic: playerSpriteSheet.getSprite(5, 3) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+                {graphic: playerSpriteSheet.getSprite(6, 3) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+                {graphic: playerSpriteSheet.getSprite(4, 3, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+                {graphic: playerSpriteSheet.getSprite(5, 3, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+                {graphic: playerSpriteSheet.getSprite(6, 3, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
             ]
         });
         this.graphics.add('up-walk', upWalk);
 
-        const spriteD1 = playerSpriteSheet.getSprite(0, 3);
-        const spriteD2 = playerSpriteSheet.getSprite(1, 3);
-        const spriteD3 = playerSpriteSheet.getSprite(2, 3);
-
-        const spriteD1f = spriteD1!.clone();
-        spriteD1!.flipHorizontal = true;
-        const spriteD2f = spriteD2!.clone();
-        spriteD2!.flipHorizontal = true;
-        const spriteD3f = spriteD3!.clone();
-        spriteD3!.flipHorizontal = true;
-
         const downWalk = new ex.Animation({
             frames: [
-                {graphic: spriteD1 as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: spriteD2 as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: spriteD3 as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: spriteD1f as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: spriteD2f as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: spriteD3f as ex.Sprite, duration: Config.PlayerFrameSpeed},
+                {graphic: playerSpriteSheet.getSprite(0, 3) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+                {graphic: playerSpriteSheet.getSprite(1, 3) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+                {graphic: playerSpriteSheet.getSprite(2, 3) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+                {graphic: playerSpriteSheet.getSprite(0, 3, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+                {graphic: playerSpriteSheet.getSprite(1, 3, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+                {graphic: playerSpriteSheet.getSprite(2, 3, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
             ]
         });
         this.graphics.add('down-walk', downWalk);
-
-
 
         const bindings:any = {
             "kb": {

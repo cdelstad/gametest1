@@ -19,7 +19,7 @@
   "dependencies": {
     "@excaliburjs/dev-tools": "^0.28.0",
     "@excaliburjs/plugin-tiled": "^0.28.0",
-    "excalibur": "^0.29.0-alpha.835"
+    "excalibur": "0.29.0-alpha.869"
   },
   "devDependencies": {
     "copy-webpack-plugin": "11.0.0",

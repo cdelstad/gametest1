@@ -37,9 +37,9 @@ export function addPortal(game: Engine,obj: any) {
     });
     
     // This loads the entire tileObject to the Actor. Probably don't want to do that as it loads a lot of extra data times ? tiles on bigger maps?
-    actorWithCircleCollider.addComponent( new TiledObjectComponent(obj));
+    // actorWithCircleCollider.addComponent( new TiledObjectComponent(obj));
     
-    game.currentScene.add(actorWithCircleCollider);
+    // game.currentScene.add(actorWithCircleCollider);
 
 
     // if (obj.properties.some((p: { name: string;}) => p.name ==='levelreq')){
