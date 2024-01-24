@@ -1,6 +1,6 @@
 import { DefaultLoader, Engine, Scene, vec } from "excalibur";
 import { resourcesLoader } from "../utils/resourcesLoader";
-import { Player } from "../player";
+import { Character } from "../Character";
 import outlineFrag from '../utils/Outline';
 import { addPortal } from '../utils/utils';
 
@@ -64,7 +64,7 @@ class GameScene extends Scene {
         
             const player = objects.getObjectByName("Player");
             if (player) {
-                const playerActor = new Player(vec(player.x, player.y));
+                const playerActor = new Character(vec(player.x, player.y));
         
                 // playerActor.on('collisionstart', evt => {
                 //     const data = evt.other.get(TiledObjectComponent)

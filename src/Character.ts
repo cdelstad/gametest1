@@ -3,12 +3,12 @@ import * as ex from 'excalibur';
 import { Config } from './config';
 // import { getSpriteSheetCoord } from './utils/utils';
 import { ImageFiltering, ImageSource } from 'excalibur';
-import * as animations from "../src/data/animations.json";
-import * as spriteSheets from "../src/data/spritesheets.json";
+import * as animations from "./data/animations.json";
+import * as spriteSheets from "./data/spritesheets.json";
 
-export class Player extends ex.Actor {
+export class Character extends ex.Actor {
     facing: string;
-    // vent: ex.EventEmitter<any>;
+    // vent: ex.EventEmitter<any>;// TODO pass in params when instantiating - from JSON?
     constructor(pos: ex.Vector) {
         super({
             pos,
@@ -22,17 +22,20 @@ export class Player extends ex.Actor {
         // this.graphics.use(this.facing+'-idle');
     }
     onInitialize(engine: ex.Engine): void {
-        // TODO add loop to load each spritesheet in list, currently hardcoded to one.
-        // TODO since Manaseed uses the same for each movement, can I reuse instead of needing to duplicate with a differernt name?
-        // TODO add array for layers on the paperdoll. may be able to use that to add a tag to the end like left-walk-hair?
+        // TODO externalize this to a function so it can be used in other places than just initializing a character.
+        // TODO since Manaseed uses the same for each movement, can I reuse instead of needing to duplicate with a different name?
+        // TODO add array for layers on the paperdoll to load spritesheets for layers
+        // TODO may be able to use layer name to add a tag to the end like left-walk-hair?
         // TODO add base Actor for Character, then logic to add child Actors for each layer including the base - or does the base do in parent actor?
-        let ss = spriteSheets.fbas_1body_human_00;
+        // TODO remove these hardcodes once I create JSON from player/character
+        let ss = spriteSheets["fbas_1body_human_00"];
+        let animsSet = 'manaseed';
 
         let spriteSheet: ex.SpriteSheet;
-        let playerSS = new ImageSource(ss.sheet, false, ImageFiltering.Pixel);
-            playerSS.load().then(() => {
+        let characterSS = new ImageSource(ss.sheet, false, ImageFiltering.Pixel);
+        characterSS.load().then(() => {
                 spriteSheet = ex.SpriteSheet.fromImageSource({
-                image: playerSS as ex.ImageSource,
+                image: characterSS as ex.ImageSource,
                 grid: {
                     spriteWidth: ss.spriteHeight,
                     spriteHeight: ss.spriteWidth,
@@ -42,8 +45,7 @@ export class Player extends ex.Actor {
             });
 
             // loop through all animation names
-            // TODO Once I create character JSON, need to pass in which animation entries to use instead of hardcoding manaseed
-            const entries = Object.entries(animations.manaseed);
+            const entries = Object.entries(animations[animsSet as keyof typeof animations]);
             entries.forEach((currentElement) => { 
                 const subentries = Object.entries(currentElement[1]);
                 let frames: { graphic: ex.Sprite; duration: number; }[] = [];
@@ -87,88 +89,6 @@ export class Player extends ex.Actor {
         //     // console.log(data);
         //     // console.log(data?.object.properties);
         // });
-
-        // const spriteRIdle = playerSpriteSheet.getSprite(0, 2);
-        // const spriteLIdle = spriteRIdle!.clone();
-        // spriteLIdle!.flipHorizontal = true;
-
-
-        // const leftIdle = new ex.Animation({
-        //     frames: [
-        //         {graphic: spriteLIdle as ex.Sprite, duration: Config.PlayerFrameSpeed},
-        //     ]
-        // })
-        // this.graphics.add('left-idle', leftIdle);
-
-        // const rightIdle = new ex.Animation({
-        //     frames: [
-        //         {graphic: spriteRIdle as ex.Sprite, duration: Config.PlayerFrameSpeed},
-        //     ]
-        // })
-        // this.graphics.add('right-idle', rightIdle);
-
-
-        // const upIdle = new ex.Animation({
-        //     frames: [
-        //         {graphic: playerSpriteSheet.getSprite(0, 1) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-        //     ]
-        // })
-        // this.graphics.add('up-idle', upIdle);
-
-        // const downIdle = new ex.Animation({
-        //     frames: [
-        //         {graphic: playerSpriteSheet.getSprite(0, 0) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-        //     ]
-        // })
-        // this.graphics.add('down-idle', downIdle);
-
-        // const leftWalk = new ex.Animation({
-        //     frames: [
-        //         {graphic: playerSpriteSheet.getSprite(0, 4, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-        //         {graphic: playerSpriteSheet.getSprite(1, 4, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-        //         {graphic: playerSpriteSheet.getSprite(2, 4, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-        //         {graphic: playerSpriteSheet.getSprite(3, 4, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-        //         {graphic: playerSpriteSheet.getSprite(4, 4, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-        //         {graphic: playerSpriteSheet.getSprite(5, 4, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-        //     ]
-        // })
-        // this.graphics.add('left-walk', leftWalk);
-
-        // const rightWalk = new ex.Animation({
-        //     frames: [
-        //         {graphic: playerSpriteSheet.getSprite(0, 4) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-        //         {graphic: playerSpriteSheet.getSprite(1, 4) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-        //         {graphic: playerSpriteSheet.getSprite(2, 4) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-        //         {graphic: playerSpriteSheet.getSprite(3, 4) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-        //         {graphic: playerSpriteSheet.getSprite(4, 4) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-        //         {graphic: playerSpriteSheet.getSprite(5, 4) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-        //     ]
-        // });
-        // this.graphics.add('right-walk', rightWalk);
-
-        // const upWalk = new ex.Animation({
-        //     frames: [
-        //         {graphic: playerSpriteSheet.getSprite(4, 3) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-        //         {graphic: playerSpriteSheet.getSprite(5, 3) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-        //         {graphic: playerSpriteSheet.getSprite(6, 3) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-        //         {graphic: playerSpriteSheet.getSprite(4, 3, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-        //         {graphic: playerSpriteSheet.getSprite(5, 3, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-        //         {graphic: playerSpriteSheet.getSprite(6, 3, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-        //     ]
-        // });
-        // this.graphics.add('up-walk', upWalk);
-
-        // const downWalk = new ex.Animation({
-        //     frames: [
-        //         {graphic: playerSpriteSheet.getSprite(0, 3) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-        //         {graphic: playerSpriteSheet.getSprite(1, 3) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-        //         {graphic: playerSpriteSheet.getSprite(2, 3) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-        //         {graphic: playerSpriteSheet.getSprite(0, 3, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-        //         {graphic: playerSpriteSheet.getSprite(1, 3, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-        //         {graphic: playerSpriteSheet.getSprite(2, 3, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-        //     ]
-        // });
-        // this.graphics.add('down-walk', downWalk);
 
         const bindings:any = {
             "kb": {
