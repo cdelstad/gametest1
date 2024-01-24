@@ -1,5 +1,5 @@
 import * as ex from 'excalibur';
-import { loader } from './InitialResources';
+// import { loader } from './InitddialResources';
 import { DevTool } from '@excaliburjs/dev-tools';
 import DemoScene from '../src/scenes/DemoScene';
 
@@ -12,7 +12,7 @@ const game = new ex.Engine({
     // suppressPlayButton : true,
 });
 
-game.start(loader).then(() => {
+game.start().then(() => {
     // const devtool = new DevTool(game);
 
     // BEGIN SAMPLE CODE SNIPPETS

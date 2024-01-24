@@ -1,7 +1,10 @@
 import * as ex from 'excalibur';
-import { Resources } from './InitialResources';
+// import { Resources } from './InitialResources';
 import { Config } from './config';
-// import { TiledEntity, TiledLayerComponent, TiledMap, TiledMapResource, TiledObject, TiledObjectComponent, TiledTilesetTile } from '@excaliburjs/plugin-tiled';
+// import { getSpriteSheetCoord } from './utils/utils';
+import { ImageFiltering, ImageSource } from 'excalibur';
+import * as animations from "../src/data/animations.json";
+import * as spriteSheets from "../src/data/spritesheets.json";
 
 export class Player extends ex.Actor {
     facing: string;
@@ -19,16 +22,43 @@ export class Player extends ex.Actor {
         // this.graphics.use(this.facing+'-idle');
     }
     onInitialize(engine: ex.Engine): void {
-        const playerSpriteSheet = ex.SpriteSheet.fromImageSource({
-            image: Resources.HeroSpriteSheetPng as ex.ImageSource,
-            grid: {
-                spriteWidth: 64,
-                spriteHeight: 64,
-                rows: 8,
-                columns: 8
-            }
-        });
-        
+        // TODO add loop to load each spritesheet in list, currently hardcoded to one.
+        // TODO since Manaseed uses the same for each movement, can I reuse instead of needing to duplicate with a differernt name?
+        // TODO add array for layers on the paperdoll. may be able to use that to add a tag to the end like left-walk-hair?
+        // TODO add base Actor for Character, then logic to add child Actors for each layer including the base - or does the base do in parent actor?
+        let ss = spriteSheets.fbas_1body_human_00;
+
+        let spriteSheet: ex.SpriteSheet;
+        let playerSS = new ImageSource(ss.sheet, false, ImageFiltering.Pixel);
+            playerSS.load().then(() => {
+                spriteSheet = ex.SpriteSheet.fromImageSource({
+                image: playerSS as ex.ImageSource,
+                grid: {
+                    spriteWidth: ss.spriteHeight,
+                    spriteHeight: ss.spriteWidth,
+                    rows: ss.rows,
+                    columns: ss.columns
+                }
+            });
+
+            // loop through all animation names
+            const entries = Object.entries(animations.manaseed);
+            entries.forEach((currentElement) => { 
+                const subentries = Object.entries(currentElement[1]);
+                let frames: { graphic: ex.Sprite; duration: number; }[] = [];
+
+                    // Create frames object to use in setting up the animation
+                    subentries.forEach(element => {
+                    // @ts-ignore - TS doesn't like config because it doesn't think it is part of the 'shape.'
+                    frames.push( {graphic: spriteSheet.getSprite(element[1].row, element[1].col, element[1].config) as ex.Sprite, duration: element[1].duration} )
+                });
+                
+                this.graphics.add(currentElement[0], new ex.Animation({
+                    frames: frames,
+                }));
+            })
+        }); // End of load spritesheet
+
         // TODO : How do I figure out the object collided with? I am trying to identify that I hit the portal circle collider from Tiled
         // this.on("collisionstart", evt => {
         //     // console.log(evt.contact.colliderB.offset.x,evt.contact.colliderB.offset.y);
@@ -57,87 +87,87 @@ export class Player extends ex.Actor {
         //     // console.log(data?.object.properties);
         // });
 
-        const spriteRIdle = playerSpriteSheet.getSprite(0, 2);
-        const spriteLIdle = spriteRIdle!.clone();
-        spriteLIdle!.flipHorizontal = true;
+        // const spriteRIdle = playerSpriteSheet.getSprite(0, 2);
+        // const spriteLIdle = spriteRIdle!.clone();
+        // spriteLIdle!.flipHorizontal = true;
 
 
-        const leftIdle = new ex.Animation({
-            frames: [
-                {graphic: spriteLIdle as ex.Sprite, duration: Config.PlayerFrameSpeed},
-            ]
-        })
-        this.graphics.add('left-idle', leftIdle);
+        // const leftIdle = new ex.Animation({
+        //     frames: [
+        //         {graphic: spriteLIdle as ex.Sprite, duration: Config.PlayerFrameSpeed},
+        //     ]
+        // })
+        // this.graphics.add('left-idle', leftIdle);
 
-        const rightIdle = new ex.Animation({
-            frames: [
-                {graphic: spriteRIdle as ex.Sprite, duration: Config.PlayerFrameSpeed},
-            ]
-        })
-        this.graphics.add('right-idle', rightIdle);
+        // const rightIdle = new ex.Animation({
+        //     frames: [
+        //         {graphic: spriteRIdle as ex.Sprite, duration: Config.PlayerFrameSpeed},
+        //     ]
+        // })
+        // this.graphics.add('right-idle', rightIdle);
 
 
-        const upIdle = new ex.Animation({
-            frames: [
-                {graphic: playerSpriteSheet.getSprite(0, 1) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-            ]
-        })
-        this.graphics.add('up-idle', upIdle);
+        // const upIdle = new ex.Animation({
+        //     frames: [
+        //         {graphic: playerSpriteSheet.getSprite(0, 1) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+        //     ]
+        // })
+        // this.graphics.add('up-idle', upIdle);
 
-        const downIdle = new ex.Animation({
-            frames: [
-                {graphic: playerSpriteSheet.getSprite(0, 0) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-            ]
-        })
-        this.graphics.add('down-idle', downIdle);
+        // const downIdle = new ex.Animation({
+        //     frames: [
+        //         {graphic: playerSpriteSheet.getSprite(0, 0) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+        //     ]
+        // })
+        // this.graphics.add('down-idle', downIdle);
 
-        const leftWalk = new ex.Animation({
-            frames: [
-                {graphic: playerSpriteSheet.getSprite(0, 4, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: playerSpriteSheet.getSprite(1, 4, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: playerSpriteSheet.getSprite(2, 4, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: playerSpriteSheet.getSprite(3, 4, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: playerSpriteSheet.getSprite(4, 4, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: playerSpriteSheet.getSprite(5, 4, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-            ]
-        })
-        this.graphics.add('left-walk', leftWalk);
+        // const leftWalk = new ex.Animation({
+        //     frames: [
+        //         {graphic: playerSpriteSheet.getSprite(0, 4, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+        //         {graphic: playerSpriteSheet.getSprite(1, 4, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+        //         {graphic: playerSpriteSheet.getSprite(2, 4, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+        //         {graphic: playerSpriteSheet.getSprite(3, 4, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+        //         {graphic: playerSpriteSheet.getSprite(4, 4, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+        //         {graphic: playerSpriteSheet.getSprite(5, 4, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+        //     ]
+        // })
+        // this.graphics.add('left-walk', leftWalk);
 
-        const rightWalk = new ex.Animation({
-            frames: [
-                {graphic: playerSpriteSheet.getSprite(0, 4) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: playerSpriteSheet.getSprite(1, 4) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: playerSpriteSheet.getSprite(2, 4) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: playerSpriteSheet.getSprite(3, 4) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: playerSpriteSheet.getSprite(4, 4) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: playerSpriteSheet.getSprite(5, 4) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-            ]
-        });
-        this.graphics.add('right-walk', rightWalk);
+        // const rightWalk = new ex.Animation({
+        //     frames: [
+        //         {graphic: playerSpriteSheet.getSprite(0, 4) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+        //         {graphic: playerSpriteSheet.getSprite(1, 4) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+        //         {graphic: playerSpriteSheet.getSprite(2, 4) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+        //         {graphic: playerSpriteSheet.getSprite(3, 4) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+        //         {graphic: playerSpriteSheet.getSprite(4, 4) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+        //         {graphic: playerSpriteSheet.getSprite(5, 4) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+        //     ]
+        // });
+        // this.graphics.add('right-walk', rightWalk);
 
-        const upWalk = new ex.Animation({
-            frames: [
-                {graphic: playerSpriteSheet.getSprite(4, 3) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: playerSpriteSheet.getSprite(5, 3) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: playerSpriteSheet.getSprite(6, 3) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: playerSpriteSheet.getSprite(4, 3, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: playerSpriteSheet.getSprite(5, 3, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: playerSpriteSheet.getSprite(6, 3, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-            ]
-        });
-        this.graphics.add('up-walk', upWalk);
+        // const upWalk = new ex.Animation({
+        //     frames: [
+        //         {graphic: playerSpriteSheet.getSprite(4, 3) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+        //         {graphic: playerSpriteSheet.getSprite(5, 3) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+        //         {graphic: playerSpriteSheet.getSprite(6, 3) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+        //         {graphic: playerSpriteSheet.getSprite(4, 3, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+        //         {graphic: playerSpriteSheet.getSprite(5, 3, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+        //         {graphic: playerSpriteSheet.getSprite(6, 3, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+        //     ]
+        // });
+        // this.graphics.add('up-walk', upWalk);
 
-        const downWalk = new ex.Animation({
-            frames: [
-                {graphic: playerSpriteSheet.getSprite(0, 3) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: playerSpriteSheet.getSprite(1, 3) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: playerSpriteSheet.getSprite(2, 3) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: playerSpriteSheet.getSprite(0, 3, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: playerSpriteSheet.getSprite(1, 3, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-                {graphic: playerSpriteSheet.getSprite(2, 3, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
-            ]
-        });
-        this.graphics.add('down-walk', downWalk);
+        // const downWalk = new ex.Animation({
+        //     frames: [
+        //         {graphic: playerSpriteSheet.getSprite(0, 3) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+        //         {graphic: playerSpriteSheet.getSprite(1, 3) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+        //         {graphic: playerSpriteSheet.getSprite(2, 3) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+        //         {graphic: playerSpriteSheet.getSprite(0, 3, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+        //         {graphic: playerSpriteSheet.getSprite(1, 3, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+        //         {graphic: playerSpriteSheet.getSprite(2, 3, {flipHorizontal:  true}) as ex.Sprite, duration: Config.PlayerFrameSpeed},
+        //     ]
+        // });
+        // this.graphics.add('down-walk', downWalk);
 
         const bindings:any = {
             "kb": {
@@ -168,7 +198,6 @@ export class Player extends ex.Actor {
 
         engine.input.keyboard.on("release", (evt: ex.KeyEvent) => {
             this.vel = ex.Vector.Zero;
-            this.graphics.use(this.facing+'-idle');
         });
 
         // This will catch the custom event when fired elsewhere in the code.
@@ -196,7 +225,6 @@ export class Player extends ex.Actor {
     }
 
     onPreCollisionResolve(self: ex.Collider, other: ex.Collider, side: ex.Side, contact: ex.CollisionContact): void {
-        console.log('in onPreCollisionResolve');
         const otherOwner = other.owner;
         if (otherOwner instanceof ex.TileMap) {
             for (let contactPoint of contact.points) {
@@ -226,6 +254,8 @@ export class Player extends ex.Actor {
         }
     }
 
-    // onPreUpdate(engine: ex.Engine, elapsedMs: number): void {
-    // }
+    onPreUpdate(engine: ex.Engine, elapsedMs: number): void {
+        // TODO check to make sure down-idle is registered before using it to clear warning.
+        this.graphics.use(this.facing+'-idle');
+    }
 }

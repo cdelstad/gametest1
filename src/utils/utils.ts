@@ -1,5 +1,5 @@
 import { TiledObjectComponent } from "@excaliburjs/plugin-tiled";
-import { CollisionType, vec, Actor, Engine } from "excalibur";
+import { CollisionType, vec, Actor, Engine, Component, ComponentCtor } from "excalibur";
 // TODO Should I just pass in ex instead of individuals since this is a utils file?
 
 // Adds a portal actor with collision
@@ -37,9 +37,10 @@ export function addPortal(game: Engine,obj: any) {
     });
     
     // This loads the entire tileObject to the Actor. Probably don't want to do that as it loads a lot of extra data times ? tiles on bigger maps?
-    // actorWithCircleCollider.addComponent( new TiledObjectComponent(obj));
+    // TODO uncomment once ECS fix is in place.
+    actorWithCircleCollider.addComponent( new TiledObjectComponent(obj) as unknown as Component);
     
-    // game.currentScene.add(actorWithCircleCollider);
+    game.currentScene.add(actorWithCircleCollider);
 
 
     // if (obj.properties.some((p: { name: string;}) => p.name ==='levelreq')){
@@ -55,4 +56,9 @@ export function getActor(name: string, game: Engine) {
 // Get list of entities that match with lowercase to avoid case issues
 export function getEntities(name: string, game: Engine) {
     return game.currentScene.entities.filter(p => p.name.toLowerCase() === name);
+}
+
+// Convert ManaSeed frame numbers to row/col positioning
+export function getSpriteSheetCoord(ssNum: number, spriteWidth: number) {
+    return {"row": ssNum % spriteWidth, "col": Math.trunc(ssNum/spriteWidth)}
 }

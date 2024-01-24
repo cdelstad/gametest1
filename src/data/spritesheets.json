@@ -1,0 +1,5 @@
+{
+    "fbas_1body_human_00": {"sheet": "./img/Mana Seed Farmer Sprite Free Sample/farmer base sheets/01body/fbas_1body_human_00.png", "spriteWidth": 64, "spriteHeight": 64, "rows": 8, "columns": 8},
+    "fbas_13hair_dapper_00a": {"sheet": "./img/Mana Seed Farmer Sprite Free Sample/farmer base sheets/13hair/fbas_13hair_dapper_00a.png", "spriteWidth": 64, "spriteHeight": 64, "rows": 8, "columns": 8},
+    "fbas_04lwr1_longpants_00a": {"sheet": "./img/Mana Seed Farmer Sprite Free Sample/farmer base sheets/04lwr1/fbas_04lwr1_longpants_00a", "spriteWidth": 64, "spriteHeight": 64, "rows": 8, "columns": 8}
+}

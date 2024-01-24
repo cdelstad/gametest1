@@ -1,0 +1,48 @@
+{
+    "manaseed": {
+        "left-walk": {
+            "1": {"row":0, "col": 4, "config": {"flipHorizontal":  true}, "duration": 130},
+            "2": {"row":1, "col": 4, "config": {"flipHorizontal":  true}, "duration": 130},
+            "3": {"row":2, "col": 4, "config": {"flipHorizontal":  true}, "duration": 130},
+            "4": {"row":3, "col": 4, "config": {"flipHorizontal":  true}, "duration": 130},
+            "5": {"row":4, "col": 4, "config": {"flipHorizontal":  true}, "duration": 130},
+            "6": {"row":5, "col": 4, "config": {"flipHorizontal":  true}, "duration": 130}
+        },
+        "right-walk": {
+            "1": {"row":0, "col": 4, "duration": 130},
+            "2": {"row":1, "col": 4, "duration": 130},
+            "3": {"row":2, "col": 4, "duration": 130},
+            "4": {"row":3, "col": 4, "duration": 130},
+            "5": {"row":4, "col": 4, "duration": 130},
+            "6": {"row":5, "col": 4, "duration": 130}
+        },
+        "up-walk": {
+            "1": {"row":4, "col": 3, "duration": 130},
+            "2": {"row":5, "col": 3, "duration": 130},
+            "3": {"row":6, "col": 3, "duration": 130},
+            "4": {"row":4, "col": 3, "config": {"flipHorizontal":  true}, "duration": 130},
+            "5": {"row":5, "col": 3, "config": {"flipHorizontal":  true}, "duration": 130},
+            "6": {"row":6, "col": 3, "config": {"flipHorizontal":  true}, "duration": 130}
+        },
+        "down-walk": {
+            "1": {"row":0, "col": 3, "duration": 130},
+            "2": {"row":1, "col": 3, "duration": 130},
+            "3": {"row":2, "col": 3, "duration": 130},
+            "4": {"row":0, "col": 3, "config": {"flipHorizontal":  true}, "duration": 130},
+            "5": {"row":1, "col": 3, "config": {"flipHorizontal":  true}, "duration": 130},
+            "6": {"row":2, "col": 3, "config": {"flipHorizontal":  true}, "duration": 130}
+        },
+        "left-idle": {
+            "1": {"row":0, "col": 2, "config": {"flipHorizontal":  true}, "duration": 130}
+        },
+        "right-idle": {
+            "1": {"row":0, "col": 2, "duration": 130}
+        },
+        "up-idle": {
+            "1": {"row":0, "col": 1, "duration": 130}
+        },
+        "down-idle": {
+            "1": {"row":0, "col": 0, "duration": 130}
+        }
+    }
+}
