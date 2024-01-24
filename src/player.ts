@@ -42,6 +42,7 @@ export class Player extends ex.Actor {
             });
 
             // loop through all animation names
+            // TODO Once I create character JSON, need to pass in which animation entries to use instead of hardcoding manaseed
             const entries = Object.entries(animations.manaseed);
             entries.forEach((currentElement) => { 
                 const subentries = Object.entries(currentElement[1]);
