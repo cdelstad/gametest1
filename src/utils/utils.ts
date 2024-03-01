@@ -28,7 +28,7 @@ export function addPortal(game: Engine,obj: any) {
             // TODO query player level and if meets textMessage asking if they are sure they want to go to X, else textMessage stating the energies refuse to activate? aka: too low level.
             // Actually, just call the scenario and let the req decide which message? Or do we keep the messages dynamic so we don't have a ton of portal messages with the location different.
             // actorWithCircleCollider.addTag("reqlvl|12");
-            console.log('level req: '+prop.value);
+            // console.log('level req: '+prop.value);
         }
     }
 

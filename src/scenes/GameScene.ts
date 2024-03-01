@@ -37,19 +37,19 @@ class GameScene extends Scene {
                             break;
                         case 'adv_guild':
                             // TODO Add adv guild logic
-                            console.log("Adv Guild");
+                            // console.log("Adv Guild");
                             break;
                         case 'bank':
                             // TODO Add bank logic
-                            console.log("Bank");
+                            // console.log("Bank");
                             break;
                         case 'shop':
                             // TODO Add shop logic
-                            console.log("Shop");
+                            // console.log("Shop");
                             break;
                         case 'special':
                             // TODO Add special logic
-                            console.log("Special");
+                            // console.log("Special");
                             break;
                         // These are handled elsewhere
                         case 'wall': // handled by TiledPlugin

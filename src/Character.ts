@@ -2,13 +2,13 @@ import * as ex from 'excalibur';
 // import { Resources } from './InitialResources';
 import { Config } from './config';
 // import { getSpriteSheetCoord } from './utils/utils';
-import { ImageFiltering, ImageSource } from 'excalibur';
-import * as animations from "./data/animations.json";
 import * as spriteSheets from "./data/spritesheets.json";
+import { setupSpriteAnims } from './AnimationManager'
 
 export class Character extends ex.Actor {
     facing: string;
-    // vent: ex.EventEmitter<any>;// TODO pass in params when instantiating - from JSON?
+    // vent: ex.EventEmitter<any>;
+    // TODO pass in params when instantiating - from JSON?
     constructor(pos: ex.Vector) {
         super({
             pos,
@@ -31,36 +31,7 @@ export class Character extends ex.Actor {
         let ss = spriteSheets["fbas_1body_human_00"];
         let animsSet = 'manaseed';
 
-        let spriteSheet: ex.SpriteSheet;
-        let characterSS = new ImageSource(ss.sheet, false, ImageFiltering.Pixel);
-        characterSS.load().then(() => {
-                spriteSheet = ex.SpriteSheet.fromImageSource({
-                image: characterSS as ex.ImageSource,
-                grid: {
-                    spriteWidth: ss.spriteHeight,
-                    spriteHeight: ss.spriteWidth,
-                    rows: ss.rows,
-                    columns: ss.columns
-                }
-            });
-
-            // loop through all animation names
-            const entries = Object.entries(animations[animsSet as keyof typeof animations]);
-            entries.forEach((currentElement) => { 
-                const subentries = Object.entries(currentElement[1]);
-                let frames: { graphic: ex.Sprite; duration: number; }[] = [];
-
-                    // Create frames object to use in setting up the animation
-                    subentries.forEach(element => {
-                    // @ts-ignore - TS doesn't like config because it doesn't think it is part of the 'shape.'
-                    frames.push( {graphic: spriteSheet.getSprite(element[1].row, element[1].col, element[1].config) as ex.Sprite, duration: element[1].duration} )
-                });
-                
-                this.graphics.add(currentElement[0], new ex.Animation({
-                    frames: frames,
-                }));
-            })
-        }); // End of load spritesheet
+        setupSpriteAnims(this, ss, animsSet);
 
         // TODO : How do I figure out the object collided with? I am trying to identify that I hit the portal circle collider from Tiled
         // this.on("collisionstart", evt => {
@@ -176,7 +147,8 @@ export class Character extends ex.Actor {
     }
 
     onPreUpdate(engine: ex.Engine, elapsedMs: number): void {
-        // TODO check to make sure down-idle is registered before using it to clear warning.
-        this.graphics.use(this.facing+'-idle');
+        if (this.graphics.getGraphic(this.facing+'-idle')) {
+            this.graphics.use(this.facing+'-idle');
+        }
     }
 }
