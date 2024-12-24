@@ -32,7 +32,7 @@ export function addPortal(game: Engine, obj: any) {
     }
 
     actorWithCircleCollider.on('collisionstart', () => {
-        console.log('Look at the portal to: '+sceneName);
+        console.log("Look, there's a portal to: "+sceneName);
     });
     
     // This loads the entire tileObject to the Actor. Probably don't want to do that as it loads a lot of extra data times ? tiles on bigger maps?

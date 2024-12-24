@@ -1,5 +1,6 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
+// const TiledPlugin = require('@excaliburjs/plugin-tiled');
 
 module.exports = {
     entry: './src/main.ts',
@@ -22,6 +23,7 @@ module.exports = {
                 {from: "img/", to: "img/"}
             ],
         }),
+        // new TiledPlugin(),
     ],
     resolve: {
         extensions: ['.ts', '.js']
