@@ -1,6 +1,5 @@
 import * as ex from 'excalibur';
 // import { loader } from './InitddialResources';
-import { DevTool } from '@excaliburjs/dev-tools';
 import DemoScene from '../src/scenes/DemoScene';
 
 const game = new ex.Engine({
@@ -13,8 +12,6 @@ const game = new ex.Engine({
 });
 
 game.start().then(() => {
-    // const devtool = new DevTool(game);
-
     // BEGIN SAMPLE CODE SNIPPETS
     // game.input.pointers.primary.on('down', evt => {
     //     const tile = Resources.TiledMap.getTileByPoint('ground', evt.worldPos);
@@ -29,5 +26,5 @@ game.start().then(() => {
     // END SAMPLE CODE SNIPPETS
 
     game.add('demo', new DemoScene());
-    game.goto('demo');
+    game.goToScene('demo');
 });

@@ -1,11 +1,11 @@
 import GameScene from './GameScene';
-import { TiledMapResource } from '@excaliburjs/plugin-tiled';
+import { TiledResource } from '@excaliburjs/plugin-tiled';
 
 class DemoScene extends GameScene {
     constructor() {
         const resources = {
             // TODO Consider changing the tile map to a string and move the new TiledMapResource into the GameScene?
-            TiledMap: new TiledMapResource('./res/beginner_town.tmx')
+            TiledMap: new TiledResource('./res/beginner_town.tmx')
         };
         super(resources);
     }

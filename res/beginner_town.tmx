@@ -5436,7 +5436,7 @@
  </objectgroup>
  <layer id="6" name="overhead" width="40" height="40">
   <properties>
-   <property name="ZIndex" type="float" value="100"/>
+   <property name="ZIndex" type="float" value="110"/>
   </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -5483,7 +5483,7 @@
  </layer>
  <layer id="7" name="overhead-accent" width="40" height="40">
   <properties>
-   <property name="ZIndex" type="float" value="110"/>
+   <property name="ZIndex" type="float" value="120"/>
   </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

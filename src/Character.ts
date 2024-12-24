@@ -88,6 +88,7 @@ export class Character extends ex.Actor {
             // this.vent.emit(bindings.kb[evt.key], new ex.GameEvent())
         });
 
+        // This stops the player's movement when no inputs are pressed.
         engine.input.keyboard.on("release", (evt: ex.KeyEvent) => {
             this.vel = ex.Vector.Zero;
         });

@@ -23,15 +23,15 @@ class GameScene extends Scene {
     onInitialize(engine: Engine) {
         if ("TiledMap" in this.resources ) {
             // Loop through TiledMap data to process objects and scripts layers
-            const objects = this.resources.TiledMap.data.getObjectLayerByName("Objects");
-            const script = this.resources.TiledMap.data.getObjectLayerByName("script");
+            // const objects = this.resources.TiledMap.data.getObjectLayerByName("Objects");
+            const objects = this.resources.TiledMap.getObjectLayers('Objects')[0];
+            ///const script = this.resources.TiledMap.data.getObjectLayerByName("script");
+            const script = this.resources.TiledMap.getObjectLayers('script')[0];
 
             for (let obj of script.objects) {
                 // TODO search for type/name and then do a switch/case on value instead of below???
-        
                 for (let prop of obj.properties) {
-                    // console.log(prop);
-                    switch (prop.name) {
+                    switch (prop[0]) {
                         case 'portal':
                             addPortal(engine,obj);
                             break;
@@ -56,13 +56,13 @@ class GameScene extends Scene {
                         case 'levelreq': // Handled in portal
                             break;
                         default:
-                            console.log('Oh no! Undefined prop type.');
+                            console.log('Oh no! Undefined prop type:'+prop);
                             break;
                     }
                 }
             } // End for all obj loop.
         
-            const player = objects.getObjectByName("Player");
+            const player = objects.getObjectsByName("Player");
             if (player) {
                 const playerActor = new Character(vec(player.x, player.y));
         
@@ -86,7 +86,7 @@ class GameScene extends Scene {
                 playerActor.graphics.material = outlineMaterial;
             }
 
-            this.resources.TiledMap.addTiledMapToScene(engine.currentScene);
+            this.resources.TiledMap.addToScene(engine.currentScene);
         }
     }
   

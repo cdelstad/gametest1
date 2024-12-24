@@ -1,10 +1,9 @@
-import { TiledObjectComponent } from "@excaliburjs/plugin-tiled";
+import { TiledDataComponent } from "@excaliburjs/plugin-tiled";
 import { CollisionType, vec, Actor, Engine, Component, ComponentCtor } from "excalibur";
 // TODO Should I just pass in ex instead of individuals since this is a utils file?
 
 // Adds a portal actor with collision
-export function addPortal(game: Engine,obj: any) {
-
+export function addPortal(game: Engine, obj: any) {
     let sceneName: string = 'Undefined';
 
     const actorWithCircleCollider = new Actor({
@@ -21,10 +20,10 @@ export function addPortal(game: Engine,obj: any) {
     for (let prop of obj.properties) {
         // Maybe make this a switch if there are more options to consider like quest requirement? This is where sending to textMessage and letting it figure out the right message makes it one lovcation for this.
         // The text can be pulled from a single source as well and not duplicated?
-        if (prop.name === 'portal') {
-            sceneName = prop.value;
+        if (prop[0] === 'portal') {
+            sceneName = prop[1];
         }
-        if (prop.name === 'levelreq') {
+        if (prop[0] === 'levelreq') {
             // TODO query player level and if meets textMessage asking if they are sure they want to go to X, else textMessage stating the energies refuse to activate? aka: too low level.
             // Actually, just call the scenario and let the req decide which message? Or do we keep the messages dynamic so we don't have a ton of portal messages with the location different.
             // actorWithCircleCollider.addTag("reqlvl|12");
@@ -38,7 +37,7 @@ export function addPortal(game: Engine,obj: any) {
     
     // This loads the entire tileObject to the Actor. Probably don't want to do that as it loads a lot of extra data times ? tiles on bigger maps?
     // TODO uncomment once ECS fix is in place.
-    actorWithCircleCollider.addComponent( new TiledObjectComponent(obj) as unknown as Component);
+    actorWithCircleCollider.addComponent( new TiledDataComponent(obj) as unknown as Component);
     
     game.currentScene.add(actorWithCircleCollider);
 
