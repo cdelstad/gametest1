@@ -62,7 +62,7 @@ class GameScene extends Scene {
                 }
             } // End for all obj loop.
         
-            const player = objects.getObjectsByName("Player");
+            const player = objects.getObjectsByName("Player")[0];
             if (player) {
                 const playerActor = new Character(vec(player.x, player.y));
         

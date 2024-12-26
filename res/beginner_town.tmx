@@ -5263,7 +5263,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="4" name="interactive" width="40" height="40" visible="0">
+ <layer id="4" name="interactive" width="40" height="40" visible="1">
   <properties>
    <property name="excalibur" type="bool" value="true"/>
    <property name="solid" type="bool" value="true"/>
