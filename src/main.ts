@@ -29,7 +29,7 @@ uiMgr.create({
     pointerEvent: 'all' 
 });
     
-console.log('getElement',uiMgr.getElement('test1'));
+// console.log('getElement',uiMgr.getElement('test1'));
 
 // uiMgr.remove('test2');
 
@@ -56,10 +56,11 @@ document.body.appendChild(button2);
 
 uiMgr.register(button2!);
 
-console.log(uiMgr.getRegistry());
+// console.log(uiMgr.getRegistry());
 
 // console.log("isVisible",uiMgr.calcVisibility(button2));
 
+// console.log("uiMgr", uiMgr);
 
 const game = new ex.Engine({
     width: 800,

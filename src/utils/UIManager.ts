@@ -33,9 +33,13 @@ class UIManager {
     // TODO is this the right way to initialize this?
     registry: Element[] = [];
     instance!: UIManager;
+    uiContainer!: HTMLElement;
 
     initRegistry(config: Config) {
         // TODO Check for aria-live-root and if not found, add it and setup this region
+
+        this._createContainer();
+
         // The UI Manager needs to be a singleton.
         // TODO should I be checking that instance is a typeof UIManager? Need to confirm that this will always be an object and only return from the if statement. 
         // It seems to be working when I try to create another UIManager.
@@ -74,25 +78,27 @@ class UIManager {
 
     // Creates a UI element using internal components, registers it, and adds it to the DOM
     create( elem: Element) {
+        // Check if id exists in DOM
+        if (!document.getElementById(elem.id)) {
+            const button = document.createElement("button");
+            button.innerText = 'Click me!';
+            button.id = elem.id;
+            button.style.position = "absolute";
+            button.style.top = elem.screenPos.x+'px';
+            button.style.left = elem.screenPos.y+'px';
+            this.uiContainer.appendChild(button);
 
-        const button = document.createElement("button");
-        button.innerText = 'Click me!';
-        button.id = elem.id;
-        button.style.position = "absolute";
-        button.style.top = elem.screenPos.x+'px';
-        button.style.left = elem.screenPos.y+'px';
-        document.body.appendChild(button);
-
-        elem.ref = button;
-        this.registry?.push(elem);
+            elem.ref = button;
+            this.registry?.push(elem);
+        } else {
+            console.error("UI Manager: '"+elem.id+"' ID exists, cannot add a duplicate. Please make the ID unique.");
+        }
 
     }
 
-    // Remove an element by ID
+    // Remove an element by ID (DOM and registry)
+    // updates existing array instead of returning a new array
     remove(id: string) {
-
-        // Remove element from DOM
-        // document.getElementById(id)?.remove();
         this.getElement(id)?.remove();
         // Remove element from registry array
         const indexToRemove = this.registry.findIndex(item => item.id === id);
@@ -125,6 +131,16 @@ class UIManager {
         // TODO may need to start by users creating each HTMLElement individually, but need to look at how to generate html - maybe a Lit component that uses lit HTML ``?
     }
   
+    // Set container to house all UI Elements
+    private _createContainer() {
+        if (!this.uiContainer) {
+            const container = document.createElement("div");
+            container.id = "uicontainer-"+ this._generateUniqueId();
+            document.body.appendChild(container);
+            this.uiContainer = container;
+        }
+    }
+
     // Internal register functionality
     private _register() {
         // Check for duplicate ID
@@ -140,12 +156,15 @@ class UIManager {
 
     }
 
-    // Calculates whether a DOM element is visible checking display, visibility, etc and returns true//false
-    // TODO This will initially be used for the register() to see the status of a pre-existing element.
+    // Calculates whether a DOM element is visible checking display, visibility, etc and returns true/false
     _calcVisibility(elem: HTMLElement) {
-        // Also should check: elem.style.visibility !== 'hidden'
         if (elem.style.visibility === 'hidden') { return false;};
         return !!( elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length );
+    }
+
+    // Generates a unique id. Looks like this: m56w6q1o0ynlbofiluea
+    _generateUniqueId() {
+        return Date.now().toString(36) + Math.random().toString(36).substring(2);
     }
 
 }

@@ -32,6 +32,7 @@ export function addPortal(game: Engine, obj: any) {
     }
 
     actorWithCircleCollider.on('collisionstart', () => {
+        /// TODO Why is this firing on game load? It used to fire only when character collided with it.
         console.log("Look, there's a portal to: "+sceneName);
     });
     
@@ -60,4 +61,9 @@ export function getEntities(name: string, game: Engine) {
 // Convert ManaSeed frame numbers to row/col positioning
 export function getSpriteSheetCoord(ssNum: number, spriteWidth: number) {
     return {"row": ssNum % spriteWidth, "col": Math.trunc(ssNum/spriteWidth)}
+}
+
+// Generate unique id. Looks like this: m56w6q1o0ynlbofiluea
+export function generateUniqueId() {
+    return Date.now().toString(36) + Math.random().toString(36).substring(2);
 }
