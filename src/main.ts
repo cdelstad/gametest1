@@ -17,17 +17,17 @@ uiMgr.create({
     pointerEvent: 'all' 
 });
 
-uiMgr.create({   
-    id: 'test2',
-    worldPos: {x:1,y:1},
-    screenPos: {x:40,y:10},
-    isComposite: false,
-    // children?: Element[],
-    isVisible: true, 
-    isReady: true, 
-    zIndex: 10, 
-    pointerEvent: 'all' 
-});
+// uiMgr.create({   
+//     id: 'test2',
+//     worldPos: {x:1,y:1},
+//     screenPos: {x:40,y:10},
+//     isComposite: false,
+//     // children?: Element[],
+//     isVisible: true, 
+//     isReady: true, 
+//     zIndex: 10, 
+//     pointerEvent: 'all' 
+// });
     
 // console.log('getElement',uiMgr.getElement('test1'));
 

@@ -1,3 +1,7 @@
+import { ExText } from "../components/ExText";
+
+// customElements.define('ex-text', ExText);
+
 interface Position {
     x: number,
     y: number,
@@ -79,6 +83,16 @@ class UIManager {
     // Creates a UI element using internal components, registers it, and adds it to the DOM
     create( elem: Element) {
         // Check if id exists in DOM
+        // customElements.define('ex-text', ExText);
+        // const extext = window.document.createElement("ex-text");
+        const extext = window.document.createElement("ex-text");
+        // TODO This is not really rendering the lit comp.
+        extext.innerText = 'Hello from JavaScript!';
+        extext.style.position = "absolute";
+        extext.style.top = '365px';
+        extext.style.left = '370px';
+        this.uiContainer.appendChild(extext);
+    
         if (!document.getElementById(elem.id)) {
             const button = document.createElement("button");
             button.innerText = 'Click me!';
