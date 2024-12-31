@@ -1,4 +1,4 @@
-import { ExText } from "../components/ExText";
+import  "../components/ExText";
 
 // customElements.define('ex-text', ExText);
 
@@ -60,6 +60,7 @@ class UIManager {
     // reset the registry to initial empty state
     clearRegistry() {
         // TODO not sure this is the right way to do this with TypeScript.
+        // TODO should call the remove function so it clears form registry and DOM.
         this.registry = [];
     }
 
@@ -87,10 +88,10 @@ class UIManager {
         // const extext = window.document.createElement("ex-text");
         const extext = window.document.createElement("ex-text");
         // TODO This is not really rendering the lit comp.
-        extext.innerText = 'Hello from JavaScript!';
+        // extext.innerText = 'Hello from JavaScript!';
         extext.style.position = "absolute";
-        extext.style.top = '365px';
-        extext.style.left = '370px';
+        extext.style.top = '375px';
+        extext.style.left = '550px';
         this.uiContainer.appendChild(extext);
     
         if (!document.getElementById(elem.id)) {
