@@ -14,6 +14,7 @@ type PosCallback = (x: number, y: number) => any;
 interface Element {
     id: string, // Element ID
     ref?: HTMLElement, // reference to the element in the DOM
+    type: string,
     worldPos: Position, // position on the canvas/world space
     screenPos: Position, // position on the screen
     isComposite: boolean, // Is this element a composite
@@ -84,26 +85,23 @@ class UIManager {
     // Creates a UI element using internal components, registers it, and adds it to the DOM
     create( elem: Element) {
         // Check if id exists in DOM
-        // customElements.define('ex-text', ExText);
         // const extext = window.document.createElement("ex-text");
-        const extext = window.document.createElement("ex-text");
-        // TODO This is not really rendering the lit comp.
-        // extext.innerText = 'Hello from JavaScript!';
-        extext.style.position = "absolute";
-        extext.style.top = '375px';
-        extext.style.left = '550px';
-        this.uiContainer.appendChild(extext);
+        // // extext.innerText = 'Hello from JavaScript!';
+        // extext.style.position = "absolute";
+        // extext.style.top = '375px';
+        // extext.style.left = '550px';
+        // this.uiContainer.appendChild(extext);
     
         if (!document.getElementById(elem.id)) {
-            const button = document.createElement("button");
-            button.innerText = 'Click me!';
-            button.id = elem.id;
-            button.style.position = "absolute";
-            button.style.top = elem.screenPos.x+'px';
-            button.style.left = elem.screenPos.y+'px';
-            this.uiContainer.appendChild(button);
+            const el = document.createElement(elem.type);
+            el.innerText = 'Click me!'; // TODO need to make this a slot? so images and text, etc can be passed in?
+            el.id = elem.id;
+            el.style.position = "absolute";
+            el.style.top = elem.screenPos.x+'px';
+            el.style.left = elem.screenPos.y+'px';
+            this.uiContainer.appendChild(el);
 
-            elem.ref = button;
+            elem.ref = el;
             this.registry?.push(elem);
         } else {
             console.error("UI Manager: '"+elem.id+"' ID exists, cannot add a duplicate. Please make the ID unique.");
@@ -128,6 +126,7 @@ class UIManager {
             {
                 id: elem.id,
                 ref: elem,
+                type: "button",
                 worldPos: {x:1,y:1}, // TODO add calculation here with screenToWorldCallback?
                 screenPos: {x:parseInt(elem.style.top,10),y:parseInt(elem.style.left,10)},
                 isComposite: false, // need to make dynamic - do we look to see if more element children or require user to pass in this flag??

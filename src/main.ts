@@ -7,6 +7,7 @@ const uiMgr = uiManager.initRegistry({baseZIndex: 1000});
 
 uiMgr.create({   
     id: 'test1',
+    type: "button",
     worldPos: {x:1,y:1},
     screenPos: {x:10,y:10},
     isComposite: false,
@@ -17,23 +18,24 @@ uiMgr.create({
     pointerEvent: 'all' 
 });
 
-// uiMgr.create({   
-//     id: 'test2',
-//     worldPos: {x:1,y:1},
-//     screenPos: {x:40,y:10},
-//     isComposite: false,
-//     // children?: Element[],
-//     isVisible: true, 
-//     isReady: true, 
-//     zIndex: 10, 
-//     pointerEvent: 'all' 
-// });
+uiMgr.create({   
+    id: 'littest1',
+    type: "ex-text",
+    worldPos: {x:1,y:1},
+    screenPos: {x:365,y:400},
+    isComposite: false,
+    // children?: Element[],
+    isVisible: true, 
+    isReady: true, 
+    zIndex: 10, 
+    pointerEvent: 'all' 
+});
     
 // console.log('getElement',uiMgr.getElement('test1'));
 
 // uiMgr.remove('test2');
 
-//uiMgr.clearRegistry();
+// uiMgr.clearRegistry();
 
 const button1 = uiMgr.getElement('test1');
 // We want to use the UI manager to create mechanism for devs to modify, perhaps signals, though since it is HTML, a developer can modify it as they want.
