@@ -1,5 +1,5 @@
-import * as ex from 'excalibur';
-// import { loader } from './InitddialResources';
+import { Engine, DisplayMode } from 'excalibur';
+// import { loader } from './InitialResources';
 import DemoScene from '../src/scenes/DemoScene';
 import { uiManager } from './utils/UIManager';
 
@@ -64,12 +64,12 @@ uiMgr.register(button2!);
 
 // console.log("uiMgr", uiMgr);
 
-const game = new ex.Engine({
+const game = new Engine({
     width: 800,
     height: 600,
     canvasElementId: 'game',
     antialiasing: false,
-    displayMode: ex.DisplayMode.FitScreenAndFill,
+    displayMode: DisplayMode.FitScreenAndFill,
     // suppressPlayButton : true,
 });
 

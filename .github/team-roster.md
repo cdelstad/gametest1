@@ -19,6 +19,5 @@ Agents hired for one-time tasks. After completion, archived to `.github/agents/t
 
 | Agent | Role | Task | Hired | Archived | File |
 |-------|------|------|-------|----------|------|
-| *(none yet)* | | | | | |
 
 

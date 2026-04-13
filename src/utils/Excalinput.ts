@@ -1,10 +1,10 @@
-import * as ex from "excalibur";
+import { Engine } from "excalibur";
 
 class Excalinput {
-  constructor(engine: ex.Engine) {
+  constructor(engine: Engine) {
     console.log("Scenes:",engine.scenes);
   }
 }
 
-const engine = new ex.Engine();
+const engine = new Engine();
 export const excalInput = new Excalinput(engine)

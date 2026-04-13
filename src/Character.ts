@@ -1,4 +1,4 @@
-import * as ex from 'excalibur';
+import { Actor, CollisionContact, Collider, CollisionType, Engine, KeyEvent, Side, TileMap, Vector, vec } from 'excalibur';
 import {excalInput} from './utils/Excalinput';
 
 // import { Resources } from './InitialResources';
@@ -7,23 +7,23 @@ import { Config } from './config';
 import * as spriteSheets from "./data/spritesheets.json";
 import { setupSpriteAnims } from './AnimationManager'
 
-export class Character extends ex.Actor {
+export class Character extends Actor {
     facing: string;
     // vent: ex.EventEmitter<any>;
     // TODO pass in params when instantiating - from JSON?
-    constructor(pos: ex.Vector) {
+    constructor(pos: Vector) {
         super({
             pos,
             width: 16,
             height: 16,
-            collisionType: ex.CollisionType.Active,
+            collisionType: CollisionType.Active,
             name: 'player'
         })
         // this.vent = new ex.EventEmitter()
         this.facing = 'down';
         // this.graphics.use(this.facing+'-idle');
     }
-    onInitialize(engine: ex.Engine): void {
+    onInitialize(engine: Engine): void {
         // TODO externalize this to a function so it can be used in other places than just initializing a character.
         // TODO since Manaseed uses the same for each movement, can I reuse instead of needing to duplicate with a different name?
         // TODO add array for layers on the paperdoll to load spritesheets for layers
@@ -85,43 +85,43 @@ export class Character extends ex.Actor {
 
         // Listen to all keypresses and emit a custom event matching key pressed
         // Only set if keyboard is selected so we don't have listeners for multiple inputs?
-        engine.input.keyboard.on("hold", (evt: ex.KeyEvent) => {
+        engine.input.keyboard.on("hold", (evt: KeyEvent) => {
             this.events.emit(bindings.kb[evt.key],this);
             // this.vent.emit(bindings.kb[evt.key], new ex.GameEvent())
         });
 
         // This stops the player's movement when no inputs are pressed.
-        engine.input.keyboard.on("release", (evt: ex.KeyEvent) => {
-            this.vel = ex.Vector.Zero;
+        engine.input.keyboard.on("release", (evt: KeyEvent) => {
+            this.vel = Vector.Zero;
         });
 
         // This will catch the custom event when fired elsewhere in the code.
         this.events.on('moveLeft',  () => {
             this.facing = 'left';
-            this.vel = ex.vec(-Config.PlayerSpeed, 0);
+            this.vel = vec(-Config.PlayerSpeed, 0);
             this.graphics.use('left-walk');
         });
         this.events.on('moveRight',  () => {
             this.facing = 'right';
-            this.vel = ex.vec(Config.PlayerSpeed, 0);
+            this.vel = vec(Config.PlayerSpeed, 0);
             this.graphics.use('right-walk');
         });
         this.events.on('moveDown',  () => {
             this.facing = 'down';
-            this.vel = ex.vec(0, Config.PlayerSpeed);
+            this.vel = vec(0, Config.PlayerSpeed);
             this.graphics.use('down-walk');
         });
         this.events.on('moveUp',  () => {
             this.facing = 'up';
-            this.vel = ex.vec(0, -Config.PlayerSpeed);
+            this.vel = vec(0, -Config.PlayerSpeed);
             this.graphics.use('up-walk');
         });
 
     }
 
-    onPreCollisionResolve(self: ex.Collider, other: ex.Collider, side: ex.Side, contact: ex.CollisionContact): void {
+    onPreCollisionResolve(self: Collider, other: Collider, side: Side, contact: CollisionContact): void {
         const otherOwner = other.owner;
-        if (otherOwner instanceof ex.TileMap) {
+        if (otherOwner instanceof TileMap) {
             for (let contactPoint of contact.points) {
                 // Nudge into the tile zone by direction
                 const maybeTile = otherOwner.getTileByPoint(contactPoint.add(this.vel.normalize()));
@@ -149,7 +149,7 @@ export class Character extends ex.Actor {
         }
     }
 
-    onPreUpdate(engine: ex.Engine, elapsedMs: number): void {
+    onPreUpdate(engine: Engine, elapsedMs: number): void {
         if (this.graphics.getGraphic(this.facing+'-idle')) {
             this.graphics.use(this.facing+'-idle');
         }

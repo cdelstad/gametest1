@@ -1,14 +1,14 @@
-import * as ex from 'excalibur'
+import { Engine, Sound } from 'excalibur'
 
 class AudioManager {
-  currentSong: ex.Sound | null = null
-  engine!: ex.Engine
+  currentSong: Sound | null = null
+  engine!: Engine
 
-  init(engine: ex.Engine) {
+  init(engine: Engine) {
     this.engine = engine
   }
 
-  playSong(song: ex.Sound) {
+  playSong(song: Sound) {
     if (this.currentSong) {
       this.currentSong.stop()
     }
@@ -19,7 +19,7 @@ class AudioManager {
   }
 
   playSfx(
-    sfx: ex.Sound,
+    sfx: Sound,
     opts: { volume?: number; ignoreIfPlaying?: boolean } = {}
   ) {
     const { volume = 0.7, ignoreIfPlaying = false } = opts
