@@ -68,7 +68,7 @@ const game = new Engine({
     width: 800,
     height: 600,
     canvasElementId: 'game',
-    antialiasing: false,
+    pixelArt: true,
     displayMode: DisplayMode.FitScreenAndFill,
     // suppressPlayButton : true,
 });

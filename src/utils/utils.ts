@@ -7,7 +7,7 @@ export function addPortal(game: Engine, obj: any) {
     let sceneName: string = 'Undefined';
 
     const actorWithCircleCollider = new Actor({
-        pos: vec(obj.x + obj.width!/2, obj.y + obj.width!/2), // < -- tiled renders stuff oddly
+        pos: vec(obj.x + obj.width!/2, obj.y + obj.height!/2), // < -- tiled renders stuff oddly
         radius: (obj.width || 20) / 2, // < - radius is 1/2 width
         collisionType: CollisionType.Passive,
         // color: ex.Color.Green, // <-- debug color

@@ -1,9 +1,6 @@
 import { Actor, CollisionContact, Collider, CollisionType, Engine, KeyEvent, Side, TileMap, Vector, vec } from 'excalibur';
-import {excalInput} from './utils/Excalinput';
 
-// import { Resources } from './InitialResources';
 import { Config } from './config';
-// import { getSpriteSheetCoord } from './utils/utils';
 import * as spriteSheets from "./data/spritesheets.json";
 import { setupSpriteAnims } from './AnimationManager'
 
@@ -17,13 +14,14 @@ export class Character extends Actor {
             width: 16,
             height: 16,
             collisionType: CollisionType.Active,
-            name: 'player'
+            name: 'player',
+            anchor: vec(0, 0)
         })
         // this.vent = new ex.EventEmitter()
         this.facing = 'down';
         // this.graphics.use(this.facing+'-idle');
     }
-    onInitialize(engine: Engine): void {
+    async onInitialize(engine: Engine): Promise<void> {
         // TODO externalize this to a function so it can be used in other places than just initializing a character.
         // TODO since Manaseed uses the same for each movement, can I reuse instead of needing to duplicate with a different name?
         // TODO add array for layers on the paperdoll to load spritesheets for layers
@@ -33,7 +31,7 @@ export class Character extends Actor {
         let ss = spriteSheets["fbas_1body_human_00"];
         let animsSet = 'manaseed';
 
-        setupSpriteAnims(this, ss, animsSet);
+        await setupSpriteAnims(this, ss, animsSet);
 
         // TODO : How do I figure out the object collided with? I am trying to identify that I hit the portal circle collider from Tiled
         // this.on("collisionstart", evt => {
@@ -85,13 +83,16 @@ export class Character extends Actor {
 
         // Listen to all keypresses and emit a custom event matching key pressed
         // Only set if keyboard is selected so we don't have listeners for multiple inputs?
-        engine.input.keyboard.on("hold", (evt: KeyEvent) => {
-            this.events.emit(bindings.kb[evt.key],this);
+        this.scene!.input.keyboard.on("hold", (evt: KeyEvent) => {
+            const action = bindings.kb[evt.key];
+            if (action) {
+                this.events.emit(action, this);
+            }
             // this.vent.emit(bindings.kb[evt.key], new ex.GameEvent())
         });
 
         // This stops the player's movement when no inputs are pressed.
-        engine.input.keyboard.on("release", (evt: KeyEvent) => {
+        this.scene!.input.keyboard.on("release", (evt: KeyEvent) => {
             this.vel = Vector.Zero;
         });
 

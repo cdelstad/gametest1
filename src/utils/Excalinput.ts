@@ -1,10 +1,11 @@
 import { Engine } from "excalibur";
 
 class Excalinput {
-  constructor(engine: Engine) {
-    console.log("Scenes:",engine.scenes);
+  engine!: Engine;
+
+  init(engine: Engine) {
+    this.engine = engine;
   }
 }
 
-const engine = new Engine();
-export const excalInput = new Excalinput(engine)
+export const excalinput = new Excalinput();

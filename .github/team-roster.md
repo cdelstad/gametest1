@@ -12,6 +12,7 @@
 | SAGE | Strategic Planner | Creating implementation plans, breaking down complex tasks into phases, writing specs | 2026-03-29 | *A good plan makes implementation feel inevitable.* |
 | QUILL | Technical Documentation Writer | Writing developer guides, API references, README files, tutorials, or any developer-facing documentation | 2026-03-29 | *Clear docs are the shortest distance between a developer and a working feature.* |
 | PROBE | Test Runner | Running automated test cases against agents, verifying constraint enforcement, producing pass/fail reports | 2025-07-25 | *X/Y passed. Z failures.* |
+| PIXEL | Game Development Specialist | Implementing game features, fixing sprite/animation issues, Excalibur.js engine code, Tiled map integration, collision systems, input handling, scene management, pixel art rendering | 2026-04-13 | *Sixty frames, zero excuses.* |
 
 ## Temporary Agents
 
