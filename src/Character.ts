@@ -1,39 +1,39 @@
 import { Actor, CollisionContact, Collider, CollisionType, Engine, KeyEvent, Side, TileMap, Vector, vec } from 'excalibur';
 
 import { Config } from './config';
-import * as spriteSheets from "./data/spritesheets.json";
+import spriteSheets from "./data/spritesheets.json";
 import { setupSpriteAnims } from './AnimationManager'
+import { Direction, KeyBindings } from './types/game.types';
 
 export class Character extends Actor {
-    facing: string;
+    facing: Direction;
     // vent: ex.EventEmitter<any>;
-    // TODO pass in params when instantiating - from JSON?
+    // TODO(backlog): pass in params when instantiating - from JSON?
     constructor(pos: Vector) {
         super({
             pos,
-            width: 16,
-            height: 16,
+            width: Config.CHARACTER_SPRITE_SIZE,
+            height: Config.CHARACTER_SPRITE_SIZE,
             collisionType: CollisionType.Active,
             name: 'player',
-            anchor: vec(0, 0)
         })
         // this.vent = new ex.EventEmitter()
         this.facing = 'down';
         // this.graphics.use(this.facing+'-idle');
     }
-    async onInitialize(engine: Engine): Promise<void> {
-        // TODO externalize this to a function so it can be used in other places than just initializing a character.
-        // TODO since Manaseed uses the same for each movement, can I reuse instead of needing to duplicate with a different name?
-        // TODO add array for layers on the paperdoll to load spritesheets for layers
-        // TODO may be able to use layer name to add a tag to the end like left-walk-hair?
-        // TODO add base Actor for Character, then logic to add child Actors for each layer including the base - or does the base do in parent actor?
-        // TODO remove these hardcodes once I create JSON from player/character
-        let ss = spriteSheets["fbas_1body_human_00"];
-        let animsSet = 'manaseed';
+    override async onInitialize(_engine: Engine): Promise<void> {
+        // TODO(backlog): externalize this to a function so it can be used in other places than just initializing a character.
+        // TODO(backlog): since Manaseed uses the same for each movement, can I reuse instead of needing to duplicate with a different name?
+        // TODO(backlog): add array for layers on the paperdoll to load spritesheets for layers
+        // TODO(backlog): may be able to use layer name to add a tag to the end like left-walk-hair?
+        // TODO(backlog): add base Actor for Character, then logic to add child Actors for each layer including the base - or does the base do in parent actor?
+        // TODO(backlog): remove these hardcodes once I create JSON from player/character
+        const spriteSheetData = spriteSheets["fbas_1body_human_00"];
+        const animationSetName = 'manaseed';
 
-        await setupSpriteAnims(this, ss, animsSet);
+        await setupSpriteAnims(this, spriteSheetData, animationSetName);
 
-        // TODO : How do I figure out the object collided with? I am trying to identify that I hit the portal circle collider from Tiled
+        // TODO(backlog): How do I figure out the object collided with? I am trying to identify that I hit the portal circle collider from Tiled
         // this.on("collisionstart", evt => {
         //     // console.log(evt.contact.colliderB.offset.x,evt.contact.colliderB.offset.y);
         //     // side is on the player
@@ -61,7 +61,7 @@ export class Character extends Actor {
         //     // console.log(data?.object.properties);
         // });
 
-        const bindings:any = {
+        const bindings: KeyBindings = {
             "kb": {
                 "KeyA": "moveLeft",
                 "KeyD": "moveRight",
@@ -83,6 +83,7 @@ export class Character extends Actor {
 
         // Listen to all keypresses and emit a custom event matching key pressed
         // Only set if keyboard is selected so we don't have listeners for multiple inputs?
+        // Safe: onInitialize guarantees this.scene is available per Excalibur lifecycle
         this.scene!.input.keyboard.on("hold", (evt: KeyEvent) => {
             const action = bindings.kb[evt.key];
             if (action) {
@@ -92,38 +93,39 @@ export class Character extends Actor {
         });
 
         // This stops the player's movement when no inputs are pressed.
-        this.scene!.input.keyboard.on("release", (evt: KeyEvent) => {
+        // Safe: onInitialize guarantees this.scene is available per Excalibur lifecycle
+        this.scene!.input.keyboard.on("release", (_evt: KeyEvent) => {
             this.vel = Vector.Zero;
         });
 
         // This will catch the custom event when fired elsewhere in the code.
         this.events.on('moveLeft',  () => {
             this.facing = 'left';
-            this.vel = vec(-Config.PlayerSpeed, 0);
+            this.vel = vec(-Config.PLAYER_SPEED, 0);
             this.graphics.use('left-walk');
         });
         this.events.on('moveRight',  () => {
             this.facing = 'right';
-            this.vel = vec(Config.PlayerSpeed, 0);
+            this.vel = vec(Config.PLAYER_SPEED, 0);
             this.graphics.use('right-walk');
         });
         this.events.on('moveDown',  () => {
             this.facing = 'down';
-            this.vel = vec(0, Config.PlayerSpeed);
+            this.vel = vec(0, Config.PLAYER_SPEED);
             this.graphics.use('down-walk');
         });
         this.events.on('moveUp',  () => {
             this.facing = 'up';
-            this.vel = vec(0, -Config.PlayerSpeed);
+            this.vel = vec(0, -Config.PLAYER_SPEED);
             this.graphics.use('up-walk');
         });
 
     }
 
-    onPreCollisionResolve(self: Collider, other: Collider, side: Side, contact: CollisionContact): void {
+    override onPreCollisionResolve(_self: Collider, other: Collider, _side: Side, contact: CollisionContact): void {
         const otherOwner = other.owner;
         if (otherOwner instanceof TileMap) {
-            for (let contactPoint of contact.points) {
+            for (const contactPoint of contact.points) {
                 // Nudge into the tile zone by direction
                 const maybeTile = otherOwner.getTileByPoint(contactPoint.add(this.vel.normalize()));
                 if (maybeTile?.solid) {
@@ -133,15 +135,15 @@ export class Character extends Actor {
                     // This logic causes player to slide to nearest edge to go around objects.
                     if (this.facing === 'left' || this.facing === 'right') {
                         if (this.pos.y < targetMidH) { 
-                            this.pos.y -= 1;
+                            this.pos.y -= Config.COLLISION_NUDGE_PX;
                         } else {
-                            this.pos.y += 1;
+                            this.pos.y += Config.COLLISION_NUDGE_PX;
                         }
                     } else { // source.facing === 'up' || source.facing === 'down'
                         if (this.pos.x < targetMidW) { 
-                            this.pos.x -= 1;
+                            this.pos.x -= Config.COLLISION_NUDGE_PX;
                         } else {
-                            this.pos.x += 1;
+                            this.pos.x += Config.COLLISION_NUDGE_PX;
                         }
                     }
                     break;
@@ -150,7 +152,7 @@ export class Character extends Actor {
         }
     }
 
-    onPreUpdate(engine: Engine, elapsedMs: number): void {
+    override onPreUpdate(_engine: Engine, _elapsedMs: number): void {
         if (this.graphics.getGraphic(this.facing+'-idle')) {
             this.graphics.use(this.facing+'-idle');
         }

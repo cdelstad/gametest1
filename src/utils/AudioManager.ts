@@ -1,4 +1,5 @@
 import { Engine, Sound } from 'excalibur'
+import { Config } from '../config'
 
 class AudioManager {
   currentSong: Sound | null = null
@@ -22,7 +23,7 @@ class AudioManager {
     sfx: Sound,
     opts: { volume?: number; ignoreIfPlaying?: boolean } = {}
   ) {
-    const { volume = 0.7, ignoreIfPlaying = false } = opts
+    const { volume = Config.DEFAULT_SFX_VOLUME, ignoreIfPlaying = false } = opts
 
     if (ignoreIfPlaying || !sfx.isPlaying()) {
       sfx.play(volume)

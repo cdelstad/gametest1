@@ -10,9 +10,7 @@ class DemoScene extends GameScene {
         super(resources);
     }
 
-    /**
-     * Start-up logic, called once
-     */
+    // Start-up logic, called once
     // onInitialize(engine: Engine) {
     // // load scene-specific assets
     // // engine.start(sceneLoader).then(() => {

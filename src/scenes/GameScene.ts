@@ -1,14 +1,17 @@
-import { DefaultLoader, Engine, Scene, vec } from "excalibur";
+import { Actor, DefaultLoader, Engine, Scene, SceneActivationContext, vec } from "excalibur";
 import { resourcesLoader } from "../utils/resourcesLoader";
 import { Character } from "../Character";
 import outlineFrag from '../utils/Outline';
 import { addPortal } from '../utils/utils';
+import { Config } from '../config';
+import { GameSceneResources } from '../types/scene.types';
+import { TiledResource } from '@excaliburjs/plugin-tiled';
 
 class GameScene extends Scene {
-    // TODO Fix the any
-    resources: any;
+    // TODO(backlog): Fix the any
+    resources: GameSceneResources;
 
-    constructor (resources: object) {
+    constructor (resources: GameSceneResources) {
         super();
         this.resources = resources;
     }
@@ -17,38 +20,39 @@ class GameScene extends Scene {
         resourcesLoader(this.resources, loader);
     }
 
-    /**
-     * Start-up logic, called once
-     */
-    onInitialize(engine: Engine) {
+    // Start-up logic, called once
+    override onInitialize(engine: Engine) {
         if ("TiledMap" in this.resources ) {
+            const tiledMap = this.resources.TiledMap as TiledResource;
             // Loop through TiledMap data to process objects and scripts layers
             // const objects = this.resources.TiledMap.data.getObjectLayerByName("Objects");
-            const objects = this.resources.TiledMap.getObjectLayers('Objects')[0];
+            const objects = tiledMap.getObjectLayers('Objects')[0];
             ///const script = this.resources.TiledMap.data.getObjectLayerByName("script");
-            const script = this.resources.TiledMap.getObjectLayers('script')[0];
+            const script = tiledMap.getObjectLayers('script')[0];
 
             for (let obj of script.objects) {
-                // TODO search for type/name and then do a switch/case on value instead of below???
+                // TODO(backlog): search for type/name and then do a switch/case on value instead of below???
                 for (let prop of obj.properties) {
                     switch (prop[0]) {
-                        case 'portal':
-                            addPortal(engine,obj);
+                        case 'portal': {
+                            const entity = script.getEntityByObject(obj);
+                            if (entity instanceof Actor) addPortal(entity, obj);
                             break;
+                        }
                         case 'adv_guild':
-                            // TODO Add adv guild logic
+                            // TODO(backlog): Add adv guild logic
                             // console.log("Adv Guild");
                             break;
                         case 'bank':
-                            // TODO Add bank logic
+                            // TODO(backlog): Add bank logic
                             // console.log("Bank");
                             break;
                         case 'shop':
-                            // TODO Add shop logic
+                            // TODO(backlog): Add shop logic
                             // console.log("Shop");
                             break;
                         case 'special':
-                            // TODO Add special logic
+                            // TODO(backlog): Add special logic
                             // console.log("Special");
                             break;
                         // These are handled elsewhere
@@ -56,7 +60,7 @@ class GameScene extends Scene {
                         case 'levelreq': // Handled in portal
                             break;
                         default:
-                            console.log('Oh no! Undefined prop type:'+prop);
+                            console.warn(`Undefined prop type: ${prop}`);
                             break;
                     }
                 }
@@ -72,13 +76,13 @@ class GameScene extends Scene {
                 // });
         
                 engine.currentScene.add(playerActor);
-                playerActor.z = 100;
+                playerActor.z = Config.PLAYER_Z_INDEX;
                 // playerActor.scale = new ex.Vector(2, 2);
                 // game.currentScene.camera.strategy.elasticToActor(playerActor, .8, .9); <- makes weird pixelshifting problems on player
                 engine.currentScene.camera.strategy.lockToActor(playerActor);
-                engine.currentScene.camera.zoom = 1.8;
+                engine.currentScene.camera.zoom = Config.CAMERA_ZOOM;
         
-                var outlineMaterial = engine.graphicsContext.createMaterial({
+                const outlineMaterial = engine.graphicsContext.createMaterial({
                     name: 'outline',
                     fragmentSource: outlineFrag
                 })
@@ -86,17 +90,17 @@ class GameScene extends Scene {
                 playerActor.graphics.material = outlineMaterial;
             }
 
-            this.resources.TiledMap.addToScene(engine.currentScene);
+            tiledMap.addToScene(engine.currentScene);
         }
     }
   
-    onActivate(ctx: any) {
+    override onActivate(_ctx: SceneActivationContext) {
     // const { spawnLocation } = ctx.data
     // console.log(spawnLocation)
     }
 
     // When scene is exited perform these steps
-    onDeactivate(ctx: any) {
+    override onDeactivate(_ctx: SceneActivationContext) {
     // this.saveState()
     }
 }

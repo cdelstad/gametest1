@@ -4,7 +4,6 @@ import {customElement} from 'lit/decorators.js';
  @customElement('ex-text')
  export class ExText extends LitElement {
   render() {
-    console.log("in render");
     return html`<div>Hello from Lit!</div>`;
   }
 }

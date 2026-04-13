@@ -9,7 +9,7 @@ interface Position {
 };
 
 // TODO Confirm this is the correct way to enforce the callback function provided takes an x and y param. How to enforce it returns an x/y? is a vector
-type PosCallback = (x: number, y: number) => any;
+// type PosCallback = (x: number, y: number) => any;
 
 interface Element {
     id: string, // Element ID
@@ -25,14 +25,14 @@ interface Element {
     pointerEvent: string // This sets behavior on whether pointer events should passthrough to the canvas?
 };
 
-interface Config {
-    // TODO should these callbacks accept a return value of a vector or object instead of idividual values? {x,y}?
-    baseZIndex: number,
-    // TODO make these required once I get most of this class completed.
-    worldToScreenCallback?: PosCallback, // This is the function used to translate from world to screen coordinates
-    screenToWorldCallback?: PosCallback, // This is the function used to translate from screen to world coordinates
+// interface Config {
+//     // TODO should these callbacks accept a return value of a vector or object instead of idividual values? {x,y}?
+//     baseZIndex: number,
+//     // TODO make these required once I get most of this class completed.
+//     worldToScreenCallback?: PosCallback, // This is the function used to translate from world to screen coordinates
+//     screenToWorldCallback?: PosCallback, // This is the function used to translate from screen to world coordinates
     
-}
+// }
 
 class UIManager {
     // TODO is this the right way to initialize this?
@@ -40,7 +40,8 @@ class UIManager {
     instance!: UIManager;
     uiContainer!: HTMLElement;
 
-    initRegistry(config: Config) {
+    // initRegistry(config: Config) {
+    initRegistry() {
         // TODO Check for aria-live-root and if not found, add it and setup this region
 
         this._createContainer();
@@ -75,12 +76,12 @@ class UIManager {
 
     }
 
-    // Show all UI elements in registry
-    showAll(waitForReady?: Boolean) {
-        // If waitForReady = true, then setInterval and wait until all elements are in a ready state before making any visible. 
-        // A use case for this is when values need to be loaded from the cloud such as health, etc.
+    // // Show all UI elements in registry
+    // showAll(waitForReady?: Boolean) {
+    //     // If waitForReady = true, then setInterval and wait until all elements are in a ready state before making any visible. 
+    //     // A use case for this is when values need to be loaded from the cloud such as health, etc.
 
-    }
+    // }
 
     // Creates a UI element using internal components, registers it, and adds it to the DOM
     create( elem: Element) {
@@ -155,20 +156,20 @@ class UIManager {
         }
     }
 
-    // Internal register functionality
-    private _register() {
-        // Check for duplicate ID
-        // TODO Should we also check for dupe reference so the same DOM element cannot be registered twice??
+    // // Internal register functionality
+    // private _register() {
+    //     // Check for duplicate ID
+    //     // TODO Should we also check for dupe reference so the same DOM element cannot be registered twice??
 
-    }
+    // }
 
-    private _setScreenPos() {
+    // private _setScreenPos() {
 
-    }
+    // }
 
-    private _setWorldPos() {
+    // private _setWorldPos() {
 
-    }
+    // }
 
     // Calculates whether a DOM element is visible checking display, visibility, etc and returns true/false
     _calcVisibility(elem: HTMLElement) {
