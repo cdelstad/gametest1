@@ -1,4 +1,6 @@
 import * as ex from 'excalibur';
+import {excalInput} from './utils/Excalinput';
+
 // import { Resources } from './InitialResources';
 import { Config } from './config';
 // import { getSpriteSheetCoord } from './utils/utils';

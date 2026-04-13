@@ -1,0 +1,72 @@
+{
+  "smartmarbles/helm::.github/agents/arthur.agent.md": {
+    "sha": "934195192b950d4cdc5b08d0c483c24be75d124e",
+    "ref": "main",
+    "pulledAt": "2026-04-13T02:31:54.666Z"
+  },
+  "smartmarbles/helm::.github/agents/merlin.agent.md": {
+    "sha": "c3bb76913f2bf2c5a721d5b99946b8090f543a61",
+    "ref": "main",
+    "pulledAt": "2026-04-13T02:31:54.854Z"
+  },
+  "smartmarbles/helm::.github/agents/probe.agent.md": {
+    "sha": "7c816f58952f2147d9e7c77378deb24089c1e48e",
+    "ref": "main",
+    "pulledAt": "2026-04-13T02:31:54.992Z"
+  },
+  "smartmarbles/helm::.github/agents/quill.agent.md": {
+    "sha": "f7b40570be8e6a4117970c88f9521ab551974c0a",
+    "ref": "main",
+    "pulledAt": "2026-04-13T02:31:55.089Z"
+  },
+  "smartmarbles/helm::.github/agents/sage.agent.md": {
+    "sha": "c6e7ff5aab3e64dafa1416230cf1c7965fa8b93c",
+    "ref": "main",
+    "pulledAt": "2026-04-13T02:31:55.190Z"
+  },
+  "smartmarbles/helm::.github/agents/scoop.agent.md": {
+    "sha": "d3e000ecf2ab08e8cc751926dcdb6e57eef73ca1",
+    "ref": "main",
+    "pulledAt": "2026-04-13T02:31:55.290Z"
+  },
+  "smartmarbles/helm::.github/agents/temps/.gitkeep": {
+    "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "ref": "main",
+    "pulledAt": "2026-04-13T02:31:55.407Z"
+  },
+  "smartmarbles/helm::.github/team-roster.md": {
+    "sha": "3355444bc31b2b706c23a90498e90f159770c38e",
+    "ref": "main",
+    "pulledAt": "2026-04-13T02:31:55.502Z"
+  },
+  "smartmarbles/helm::.github/templates/plan-template.md": {
+    "sha": "19c2755f49c400e974f52119370c945a3fa67e63",
+    "ref": "main",
+    "pulledAt": "2026-04-13T02:31:55.602Z"
+  },
+  "smartmarbles/helm::.github/templates/spec-template.md": {
+    "sha": "44b9168639b2e15d734ffd5361dc19556b575f8b",
+    "ref": "main",
+    "pulledAt": "2026-04-13T02:31:55.711Z"
+  },
+  "smartmarbles/helm::AGENTS.md": {
+    "sha": "ddb3ad8f00a59b8ed8329e6fb0019735fd0a4cf1",
+    "ref": "main",
+    "pulledAt": "2026-04-13T02:31:55.816Z"
+  },
+  "smartmarbles/helm::artifacts/.gitkeep": {
+    "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "ref": "main",
+    "pulledAt": "2026-04-13T02:31:55.927Z"
+  },
+  "smartmarbles/helm::artifacts/docs/.gitkeep": {
+    "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "ref": "main",
+    "pulledAt": "2026-04-13T02:31:56.026Z"
+  },
+  "smartmarbles/helm::artifacts/spec001-helm-test-plan/test-plan.md": {
+    "sha": "ac997cbac466f817ef0f9f19bdb9deae9f93b6a6",
+    "ref": "main",
+    "pulledAt": "2026-04-13T02:31:56.164Z"
+  }
+}
